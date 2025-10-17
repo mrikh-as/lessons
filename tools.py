@@ -50,7 +50,10 @@ class LLMWithTools:
         self.messages = []
 
     def get_magic(self, incantation: str) -> Dict[str, str]:
-        return json.dumps({"returned_incantation": "avada kedavra!"})
+        if len(incantation) < 10:
+            return json.dumps({"returned_incantation": "oculus reparum!"})
+        else:
+            return json.dumps({"returned_incantation": "avada kedavra!"})
 
     def ask(self, question: str):
         self.messages.append(
