@@ -2,6 +2,7 @@ import os
 from gigachat import GigaChatAsyncClient
 from dotenv import load_dotenv
 from telegram.ext import Application, MessageHandler, filters as f
+from tools import llm_with_tools
 
 
 async def llm_handler(update, context):
@@ -25,15 +26,7 @@ async def llm_handler(update, context):
 {history_text}
 Отвечай кратко и по-дружески.
 """
-
-    async with GigaChatAsyncClient(
-        credentials=os.getenv("key"),
-        scope="GIGACHAT_API_CORP",
-        verify_ssl_certs=False,
-    ) as giga:
-        response = await giga.achat(prompt)
-
-    answer = response.choices[0].message.content
+    answer = llm_with_tools.ask(prompt)
 
     history.append(f"Бот: {answer}")
 
